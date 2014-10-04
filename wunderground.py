@@ -1,3 +1,7 @@
+"""
+current temp, average temp, current condition
+"""
+
 import requests
 from tokens import WUNDERGROUND_KEY as key
 
