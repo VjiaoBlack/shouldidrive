@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request, abort, redirect
 from decisions import decision
 
 app = Flask(__name__)
@@ -6,8 +6,8 @@ app = Flask(__name__)
 # Pages
 @app.route('/')
 def home():
-    abort(404)
-    return render_template('index.html')
+    return redirect('/api/')
+    #return render_template('index.html')
 
 # API
 
