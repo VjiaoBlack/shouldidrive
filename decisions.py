@@ -30,7 +30,6 @@ def get_decision(data):
                       t_time['driving']['seconds'] +
                       data['uber']['time'][0]['estimate']
                   )
-
     ans = t_delta > MAX_TRANSIT_DELTA
     ans = ans and data['uber']['time'][0]['estimate'] < MAX_TRANSIT_DELTA
     return ans
