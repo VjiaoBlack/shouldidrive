@@ -21,6 +21,11 @@ def goto():
     destination = (params['end_lat'], params['end_lon'])
     return decision(origin, destination)
     
+@app.route('/api')
+def api_description():
+    return """
+    GET http://api.wunderground.com/api/ebd52d615e54e220/geolookup/q/42.4,-71.0968.json
+    """
 
 if __name__ == '__main__':
     app.debug =True
