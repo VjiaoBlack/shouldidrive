@@ -6,10 +6,16 @@ import json
 def decision(origin, destination):
     ans = {'response':{
         'weather':get_weather(destination),
+        'uber':uber(origin, destination)
         'drive':True
     }}
     return json.dumps(ans)
 
+def get_uber(start, end):
+    return {
+        'price':uber.price(start, end),
+        'eta':uber.time(start)
+    }
 
 def get_weather(location):
     weather = db.find_weather(location)
