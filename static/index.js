@@ -121,11 +121,7 @@ function shouldIUber() {
 
 
     var xhr = new XMLHttpRequest();
-<<<<<<< HEAD:index.js
     xhr.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat=desta&end_lon=destg", true);
-=======
-    xhr.open("GET", "/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat=40.7183&end_lon=-74.0142", true);
->>>>>>> e4cfb9a38eaec6b78a85050d788ef424637fdcef:static/index.js
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             callback_function(JSON.parse(xhr.responseText));
