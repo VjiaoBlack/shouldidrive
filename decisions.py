@@ -5,16 +5,16 @@ import json
 
 def decision(origin, destination):
     ans = {'response':{
-        'weather':get_weather(destination),
-        'uber':uber(origin, destination), 
+        'weather_destination':get_weather(destination),
+        'uber':get_uber(origin, destination), 
         'drive':True
     }}
     return json.dumps(ans)
 
 def get_uber(start, end):
     return {
-        'price':uber.price(start, end),
-        'eta':uber.time(start)
+        'price':uber.price(start, end)['prices'],
+        'time':uber.time(start)['times']
     }
 
 def get_weather(location):
@@ -27,7 +27,11 @@ def get_weather(location):
             'precip_today_in':weather['precip_today_in'],
             'temp_f':weather['temp_f'],
             'temp_c':weather['temp_c'],
-            'weather':weather['weather']
+            'weather':weather['weather'],
         }
         db.store_weather(location, weather)
+        weather['fresh'] = True
+    else:
+        weather['fresh'] = False
+
     return weather

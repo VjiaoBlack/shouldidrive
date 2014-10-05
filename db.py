@@ -1,8 +1,8 @@
-from pymongo import MongoClient, GEO2D
+from pymongo import MongoClient, GEOSPHERE
 from datetime import datetime
 
 db = MongoClient().shoulddrive
-db.places.create_index([("loc", GEO2D)])
+db.weather.create_index([("loc", GEOSPHERE)])
 
 # number of seconds to keep records
 MAX_TIME = 4000
@@ -15,7 +15,7 @@ def find_weather(location):
         "$nearSphere":{
             "$geometry":{
                 "type":"Point",
-                "coordinates":[location[0], location[1]]
+                "coordinates":[float(location[0]), float(location[1])]
             },
             "$maxDistance":MAX_DISTANCE
         }
@@ -31,7 +31,7 @@ def find_weather(location):
 def store_weather(location, data):
     obj = { "loc": {
                 "type":"Point",
-                "coordinates":[location[0], location[1]]
+                "coordinates":[float(location[0]), float(location[1])]
             },
             "data": data,
             "utcdate":datetime.utcnow()
