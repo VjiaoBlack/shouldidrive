@@ -77,9 +77,9 @@ def get_transit_time(origin, destination):
                          routes[0]['legs'], 0)
         return seconds
     try:
-        transit = gmaps.transit_duration(origin, destination, 'transit')['routes']
-        walking = gmaps.transit_duration(origin, destination, 'walking')['routes']
-        driving = gmaps.transit_duration(origin, destination, 'driving')['routes']
+        transit = gmaps.maps_duration(origin, destination, 'transit')['routes']
+        walking = gmaps.maps_duration(origin, destination, 'walking')['routes']
+        driving = gmaps.maps_duration(origin, destination, 'driving')['routes']
         return {
             'public':parse_gmaps(transit),
             'walking':parse_gmaps(walking),
