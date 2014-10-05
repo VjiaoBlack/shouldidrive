@@ -95,7 +95,7 @@ function callback_function(object)  {
 }
 
 function shouldIUber() {
-
+    
     wheelFade = 0;
     fadeWheel = setInterval(function() {
         wheelFade+= 0.1;
@@ -121,7 +121,7 @@ function shouldIUber() {
 
 
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat=desta&end_lon=destg", true);
+    xhr.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat="+desta+"&end_lon="+destg, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             callback_function(JSON.parse(xhr.responseText));
