@@ -2,15 +2,22 @@ import db
 import uber, wunderground, gmaps
 import json
 
+MIN_WALKING_TEMP = 25
+MAX_TRANSIT_DELTA = 
 
 def decision(origin, destination):
     ans = {'response':{
         'weather_destination':get_weather(destination),
         'uber':get_uber(origin, destination),
-        'transit_time':get_transit_time(origin, destination),
-        'drive':True
+        'travel_time':get_transit_time(origin, destination),
     }}
+    ans['decision'] = 
     return json.dumps(ans)
+
+def get_decision(data):
+    ans = True
+    if data['transit_time'] > 
+    
 
 def get_uber(start, end):
     try:
@@ -47,13 +54,17 @@ def get_weather(location):
     return weather
 
 def get_transit_time(origin, destination):
-    try:
-        routes = gmaps.transit_duration(origin, destination)['routes']
+    def parse_gmaps(routes):
         if not routes:
             return {'error':'No routes available.'}
         seconds = reduce(lambda acc, leg: acc + leg['duration']['value'],
                          routes[0]['legs'], 0)
+    try:
+        transit = gmaps.transit_duration(origin, destination, 'transit')['routes']
+        walking = gmaps.transit_duration(origin, destination, 'walking')['routes']
+        return {
+            'public':parse_gmaps(transit),
+            'walking':parse_gmaps(walking)
+        }
     except:
         return {'error':'Transit data error'}
-
-    return seconds
