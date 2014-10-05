@@ -17,6 +17,7 @@ def decision(origin, destination):
 
 def get_decision(data):
     t_time = data['travel_time']
+    print data
     if 'error' in t_time or 'error' in t_time['public'] or 'error' in t_time['walking']:
         return True
     # t_delta is the number of seconds that non-uber will take more than uber
@@ -75,15 +76,15 @@ def get_transit_time(origin, destination):
             return {'error':'No routes available.'}
         seconds = reduce(lambda acc, leg: acc + leg['duration']['value'],
                          routes[0]['legs'], 0)
-        return seconds
-        try:
-            transit = gmaps.maps_duration(origin, destination, 'transit')['routes']
-            walking = gmaps.maps_duration(origin, destination, 'walking')['routes']
-            driving = gmaps.maps_duration(origin, destination, 'driving')['routes']
-            return {
-                'public':parse_gmaps(transit),
-                'walking':parse_gmaps(walking),
-                'driving':parse_gmaps(driving)
-            }
-        except:
-            return {'error':'Data error'}
+        return {'seconds':seconds}
+    try:
+        transit = gmaps.maps_duration(origin, destination, 'transit')['routes']
+        walking = gmaps.maps_duration(origin, destination, 'walking')['routes']
+        driving = gmaps.maps_duration(origin, destination, 'driving')['routes']
+        return {
+            'public':parse_gmaps(transit),
+            'walking':parse_gmaps(walking),
+            'driving':parse_gmaps(driving)
+        }
+    except:
+        return {'error':'Data error'}
