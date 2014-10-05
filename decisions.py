@@ -17,7 +17,7 @@ def decision(origin, destination):
 
 def get_decision(data):
     t_time = data['travel_time']
-    if 'error' in data['error']:
+    if 'error' in data['uber']:
         return False
     if 'error' in t_time or 'error' in t_time['public'] or 'error' in t_time['walking']:
         return True
