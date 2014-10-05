@@ -4,7 +4,7 @@ import json
 
 MIN_WALKING_TEMP = 25
 MAX_TRANSIT_DELTA = 1020
-MAX_PRICE
+MAX_PRICE = 100
 
 def decision(origin, destination):
     ans = {'response':{
