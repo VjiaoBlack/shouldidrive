@@ -73,7 +73,7 @@ function callback_function(object)  {
     console.log(object["decision"]);
 
     document.getElementsByTagName("img")[0].style.opacity = 0;
-    if (object["decision"])
+    if (object["decision"] == True)
         document.getElementById("decision").innerHTML = "Yes!";
     else
         document.getElementById("decision").innerHTML = "No!";
