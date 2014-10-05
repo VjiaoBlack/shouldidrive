@@ -89,13 +89,32 @@ function callback_function(object)  {
 
     }, 50);
 
-    document.getElementById("temp").innerHTML = object["response"]["weather_destination"]["temp_f"];
+    document.getElementById("temp").innerHTML = Math.floor(object["response"]["weather_destination"]["temp_f"]) + " F";
     document.getElementById("weather").innerHTML = object["response"]["weather_destination"]["weather"];
-    document.getElementById("transit").innerHTML = Math.ceil(object["response"]["travel_time"]["public"]["seconds"] / 60) + " minutes";
+    document.getElementById("transit").innerHTML = Math.ceil(object["response"]["travel_time"]["public"]["seconds"] / 60) + " minutes, $4";
+
+    document.getElementById("uber1").innerHTML = object["response"]["uber"]["time"][0]["localized_display_name"];
+    document.getElementById("uber1").innerHTML += ": " + Math.floor(object["response"]["uber"]["time"][0]["estimate"] / 60) + " min";
+    document.getElementById("uber2").innerHTML = object["response"]["uber"]["time"][1]["localized_display_name"];
+    document.getElementById("uber2").innerHTML += ": " + Math.floor(object["response"]["uber"]["time"][1]["estimate"] / 60) + " min";
+    document.getElementById("uber3").innerHTML = object["response"]["uber"]["time"][2]["localized_display_name"];
+    document.getElementById("uber3").innerHTML += ": " + Math.floor(object["response"]["uber"]["time"][2]["estimate"] / 60) + " min";
+
+    document.getElementById("ubera").innerHTML = object["response"]["uber"]["price"][0]["localized_display_name"];
+    document.getElementById("ubera").innerHTML += ": " + object["response"]["uber"]["price"][0]["estimate"];
+    document.getElementById("uberb").innerHTML = object["response"]["uber"]["price"][1]["localized_display_name"];
+    document.getElementById("uberb").innerHTML += ": " + object["response"]["uber"]["price"][1]["estimate"];
+    document.getElementById("uberc").innerHTML = object["response"]["uber"]["price"][2]["localized_display_name"];
+    document.getElementById("uberc").innerHTML += ": " + object["response"]["uber"]["price"][2]["estimate"];
+
 }
 
 function shouldIUber() {
-    
+    if (document.getElementById("destinationName").value == "") {
+	console.log("gtfo");
+	alert("Fill in where you wanna go!");
+	return;
+    }
     wheelFade = 0;
     fadeWheel = setInterval(function() {
         wheelFade+= 0.1;
@@ -113,7 +132,7 @@ function shouldIUber() {
         if (xhr.readyState == 4) {
             getDest(JSON.parse(xhr.responseText));
 	    var req = new XMLHttpRequest();
-	    req.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat="+desta+"&end_lon="+destg, true);
+	    req.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat="+desta+"&end_lon="+destg+"$hurry=" + (document.getElementById("inRush").style.backgroundColor == #205060), true);
 	    req.onreadystatechange = function() {
 		if (req.readyState == 4) {
 		    callback_function(JSON.parse(req.responseText));
