@@ -6,6 +6,7 @@ app = Flask(__name__)
 # Pages
 @app.route('/')
 def home():
+    abort(404)
     return render_template('index.html')
 
 # API
