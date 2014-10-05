@@ -12,18 +12,18 @@ def decision(origin, destination):
         'uber':get_uber(origin, destination),
         'travel_time':get_transit_time(origin, destination),
     }}
-    ans['decision'] = get_decision(ans)
+    ans['decision'] = get_decision(ans['response'])
     return json.dumps(ans)
 
 def get_decision(data):
-    t_time = data['transit_time']
-    if 'error' in t_time['transit'] or 'error' in t_time['walking']:
+    t_time = data['travel_time']
+    if 'error' in t_time or 'error' in t_time['public'] or 'error' in t_time['walking']:
         return True
     # t_delta is the number of seconds that non-uber will take more than uber
     if data['weather_destination']['temp_f'] < MIN_WALKING_TEMP:
         return True
 
-    t_delta = min(t_time['transit']['seconds'], 
+    t_delta = min(t_time['public']['seconds'], 
                   t_time['walking']['seconds']) - (
                       t_time['driving']['seconds'] +
                       data['uber']['time'][0]['estimate']
