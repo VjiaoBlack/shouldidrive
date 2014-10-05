@@ -76,7 +76,7 @@ def get_transit_time(origin, destination):
             return {'error':'No routes available.'}
         seconds = reduce(lambda acc, leg: acc + leg['duration']['value'],
                          routes[0]['legs'], 0)
-        return {'seconds':seconds}
+        return seconds
     try:
         transit = gmaps.transit_duration(origin, destination, 'transit')['routes']
         walking = gmaps.transit_duration(origin, destination, 'walking')['routes']
