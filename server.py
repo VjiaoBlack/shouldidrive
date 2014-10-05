@@ -4,30 +4,6 @@ from decisions import decision
 app = Flask(__name__)
 app.debug = True
 
-# Pages
-@app.route('/')
-def home():
-    return redirect('/api/')
-    #return render_template('index.html')
-
-# API
-
-# the only api call you'll ever need
-# returns yes/no + weather and uber data
-# GET /api/goto.json/?start_lat=<latitude>&start_lon=<longitude>&end_lat=<latitude>&end_lon=<longitude>
-@app.route('/api/goto.json/')
-@crossdomain()
-def goto():
-    params = request.args
-    origin = (params['start_lat'], params['start_lon'])
-    destination = (params['end_lat'], params['end_lon'])
-    return decision(origin, destination)
-    
-@app.route('/api/')
-def api_description():
-    return render_template('docs.html')
-
-
 
 from datetime import timedelta
 from flask import make_response, request, current_app
@@ -75,6 +51,30 @@ def crossdomain(origin=None, methods=None, headers=None,
         return update_wrapper(wrapped_function, f)
     return decorator
 
+
+
+# Pages
+@app.route('/')
+def home():
+    return redirect('/api/')
+    #return render_template('index.html')
+
+# API
+
+# the only api call you'll ever need
+# returns yes/no + weather and uber data
+# GET /api/goto.json/?start_lat=<latitude>&start_lon=<longitude>&end_lat=<latitude>&end_lon=<longitude>
+@app.route('/api/goto.json/')
+@crossdomain()
+def goto():
+    params = request.args
+    origin = (params['start_lat'], params['start_lon'])
+    destination = (params['end_lat'], params['end_lon'])
+    return decision(origin, destination)
+    
+@app.route('/api/')
+def api_description():
+    return render_template('docs.html')
 
 if __name__ == '__main__':
     app.run()
