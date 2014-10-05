@@ -12,7 +12,7 @@ def decision(origin, destination, hurry):
         'uber':get_uber(origin, destination),
         'travel_time':get_transit_time(origin, destination),
     }}
-    ans['decision'] = get_decision(ans['response'])
+    ans['decision'] = get_decision(ans['response'], hurry)
     return json.dumps(ans)
 
 def get_decision(data, hurry):
