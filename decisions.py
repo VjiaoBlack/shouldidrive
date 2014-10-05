@@ -13,10 +13,15 @@ def decision(origin, destination):
     return json.dumps(ans)
 
 def get_uber(start, end):
-    return {
-        'price':uber.price(start, end)['prices'],
-        'time':uber.time(start)['times']
-    }
+    try:
+        return {
+            'price':uber.price(start, end)['prices'],
+            'time':uber.time(start)['times']
+        }
+    except:
+        return {
+            'error':'No UBER data'
+        }
 
 def get_weather(location):
     weather = db.find_weather(location)
@@ -42,9 +47,13 @@ def get_weather(location):
     return weather
 
 def get_transit_time(origin, destination):
-    routes = gmaps.transit_duration(origin, destination)['routes']
-    if not routes:
-        return {'error':'No routes available.'}
-    seconds = reduce(lambda acc, leg: acc + leg['duration']['value'],
-                     routes[0]['legs'], 0)
+    try:
+        routes = gmaps.transit_duration(origin, destination)['routes']
+        if not routes:
+            return {'error':'No routes available.'}
+        seconds = reduce(lambda acc, leg: acc + leg['duration']['value'],
+                         routes[0]['legs'], 0)
+    except:
+        return {'error':'Transit data error'}
+
     return seconds
