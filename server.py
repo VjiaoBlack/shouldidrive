@@ -65,7 +65,7 @@ def home():
 # returns yes/no + weather and uber data
 # GET /api/goto.json/?start_lat=<latitude>&start_lon=<longitude>&end_lat=<latitude>&end_lon=<longitude>
 @app.route('/api/goto.json/')
-@crossdomain()
+@crossdomain(origin='*')
 def goto():
     params = request.args
     origin = (params['start_lat'], params['start_lon'])
