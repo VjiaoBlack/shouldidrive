@@ -23,9 +23,7 @@ def goto():
     
 @app.route('/api')
 def api_description():
-    return """
-    GET /api/goto/?start_lat=<latitude>&start_lon=<longitude>&end_lat=<latitude>&end_lon=<longitude>
-    """
+    return render_template('docs.html')
 
 if __name__ == '__main__':
     app.debug =True
