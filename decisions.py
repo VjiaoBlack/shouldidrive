@@ -37,7 +37,7 @@ def get_uber(start, end):
     try:
         return {
             'price':sorted(uber.time(start)['prices'], 
-                          key=lambda x: x['high_estimate'])
+                          key=lambda x: x['high_estimate']),
             'time':sorted(uber.time(start)['times'], 
                           key=lambda x: x['estimate'])
         }
