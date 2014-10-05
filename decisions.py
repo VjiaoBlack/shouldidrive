@@ -17,11 +17,10 @@ def decision(origin, destination):
 
 def get_decision(data):
     t_time = data['travel_time']
-    print data
     if 'error' in t_time or 'error' in t_time['public'] or 'error' in t_time['walking']:
         return True
     # t_delta is the number of seconds that non-uber will take more than uber
-    if data['weather_destination']['temp_f'] < MIN_WALKING_TEMP:
+    if 'temp_f' in data['weather_destination'] and data['weather_destination']['temp_f'] < MIN_WALKING_TEMP:
         return True
 
     t_delta = min(t_time['public']['seconds'], 
