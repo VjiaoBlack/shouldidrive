@@ -6,7 +6,7 @@ MIN_WALKING_TEMP = 25
 MAX_TRANSIT_DELTA = 1020
 MAX_PRICE = 100
 
-def decision(origin, destination):
+def decision(origin, destination, hurry):
     ans = {'response':{
         'weather_destination':get_weather(destination),
         'uber':get_uber(origin, destination),
@@ -15,13 +15,17 @@ def decision(origin, destination):
     ans['decision'] = get_decision(ans['response'])
     return json.dumps(ans)
 
-def get_decision(data):
+def get_decision(data, hurry):
     t_time = data['travel_time']
     if 'error' in data['uber']:
         return False
     if 'error' in t_time or 'error' in t_time['public'] or 'error' in t_time['walking']:
         return True
     # t_delta is the number of seconds that non-uber will take more than uber
+    if hurry:
+        return True
+        #if min(t_time['public']['seconds'], t_time['walking']['seconds']) < t_time['driving']['seconds'] + data['uber']['time'][0]['estimate']:
+            
     if 'temp_f' in data['weather_destination'] and data['weather_destination']['temp_f'] < MIN_WALKING_TEMP:
         return True
 
