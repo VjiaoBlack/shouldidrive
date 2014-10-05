@@ -20,17 +20,21 @@ def get_uber(start, end):
 def get_weather(location):
     weather = db.find_weather(location)
     if not weather:
-        state, city = wunderground.geocode(location)
-        weather = wunderground.conditions(state, city.replace(' ', '_'))
-        weather = weather['current_observation']
-        weather = {
-            'precip_today_in':weather['precip_today_in'],
-            'temp_f':weather['temp_f'],
-            'temp_c':weather['temp_c'],
-            'weather':weather['weather'],
-        }
-        db.store_weather(location, weather)
-        weather['fresh'] = True
+        try:
+            state, city = wunderground.geocode(location)
+            weather = wunderground.conditions(state, city.replace(' ', '_'))
+            weather = weather['current_observation']
+            weather = {
+                'precip_today_in':weather['precip_today_in'],
+                'temp_f':weather['temp_f'],
+                'temp_c':weather['temp_c'],
+                'weather':weather['weather'],
+            }
+            db.store_weather(location, weather)
+            weather['fresh'] = True
+        except:
+            #bad error handling
+            weather = {'error':'there was error'}
     else:
         weather['fresh'] = False
 
