@@ -65,8 +65,8 @@ function makeCorsRequest() {
 
 
 function getDest(object) {
-    desta = object["results"][1]["geometry"]["location"]["lat"];
-    destg = object["results"][1]["geometry"]["location"]["lon"];
+    desta = object["results"][0]["geometry"]["location"]["lat"];
+    destg = object["results"][0]["geometry"]["location"]["lng"];
 }
 
 function callback_function(object)  {
@@ -108,23 +108,18 @@ function shouldIUber() {
     }, 50);
 
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?address="+document.getElementById("destinationName").innerHTML+"&key=AIzaSyD29P9EOBYU5jdFup0BCzUlizjyzncYS38", true);
+    xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?address="+encodeURIComponent(document.getElementById("destinationName").value)+"&key=AIzaSyD29P9EOBYU5jdFup0BCzUlizjyzncYS38", true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             getDest(JSON.parse(xhr.responseText));
-        }
-    }
-    xhr.send();
-
-
-
-
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat="+desta+"&end_lon="+destg, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            callback_function(JSON.parse(xhr.responseText));
+	    var req = new XMLHttpRequest();
+	    req.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat="+desta+"&end_lon="+destg, true);
+	    req.onreadystatechange = function() {
+		if (req.readyState == 4) {
+		    callback_function(JSON.parse(req.responseText));
+		}
+	    }
+	    req.send();
         }
     }
     xhr.send();
