@@ -13,6 +13,57 @@ var wheelFade;
 var fadeDecision;
 var decisionFade;
 
+
+
+// Create the XHR object.
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
+
+// Helper method to parse the title tag from the response.
+function getTitle(text) {
+  return text.match('<title>(.*)?</title>')[1];
+}
+
+// Make the actual CORS request.
+function makeCorsRequest() {
+  // All HTML5 Rocks properties support CORS.
+  var url = 'http://updates.html5rocks.com';
+
+  var xhr = createCORSRequest('GET', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var text = xhr.responseText;
+    var title = getTitle(text);
+    alert('Response from CORS request to ' + url + ': ' + title);
+  };
+
+  xhr.onerror = function() {
+    alert('Woops, there was an error making the request.');
+  };
+
+  xhr.send();
+}
+
+
+
 function getDest(object) {
     desta = object["results"][1]["geometry"]["location"]["lat"];
     destg = object["results"][1]["geometry"]["location"]["lon"];
@@ -70,7 +121,7 @@ function shouldIUber() {
 
 
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat=40.7183&end_lon=-74.0142", true);
+    xhr.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat=desta&end_lon=destg", true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             callback_function(JSON.parse(xhr.responseText));
