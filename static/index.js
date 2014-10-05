@@ -111,7 +111,7 @@ function shouldIUber() {
     xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?address="+document.getElementById("destinationName").innerHTML+"&key=AIzaSyD29P9EOBYU5jdFup0BCzUlizjyzncYS38", true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
-            callback_function(JSON.parse(xhr.responseText));
+            getDest(JSON.parse(xhr.responseText));
         }
     }
     xhr.send();
