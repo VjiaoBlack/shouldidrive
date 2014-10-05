@@ -161,7 +161,7 @@ function shouldIUber() {
         if (xhr.readyState == 4) {
             getDest(JSON.parse(xhr.responseText));
 	    var req = new XMLHttpRequest();
-	    req.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat="+desta+"&end_lon="+destg+"&hurry=" + (document.getElementById("inRush").style.backgroundColor == "#205060"), true);
+	    req.open("GET", "/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat="+desta+"&end_lon="+destg+"&hurry=" + (document.getElementById("inRush").style.backgroundColor == "#205060"), true);
 	    req.onreadystatechange = function() {
 		if (req.readyState == 4) {
 		    callback_function(JSON.parse(req.responseText));
