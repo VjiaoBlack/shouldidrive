@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, abort, redirect
 from decisions import decision
 
 app = Flask(__name__)
+app.debug = True
 
 # Pages
 @app.route('/')
@@ -26,5 +27,4 @@ def api_description():
     return render_template('docs.html')
 
 if __name__ == '__main__':
-    app.debug =True
     app.run()
