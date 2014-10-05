@@ -1,12 +1,13 @@
 import db
-import uber, wunderground
+import uber, wunderground, gmaps
 import json
 
 
 def decision(origin, destination):
     ans = {'response':{
         'weather_destination':get_weather(destination),
-        'uber':get_uber(origin, destination), 
+        'uber':get_uber(origin, destination),
+        'transit_time':get_transit_time(origin, destination),
         'drive':True
     }}
     return json.dumps(ans)
@@ -28,7 +29,7 @@ def get_weather(location):
                 'precip_today_in':weather['precip_today_in'],
                 'temp_f':weather['temp_f'],
                 'temp_c':weather['temp_c'],
-                'weather':weather['weather'],
+                'weather':weather['weather']
             }
             db.store_weather(location, weather)
             weather['fresh'] = True
@@ -39,3 +40,11 @@ def get_weather(location):
         weather['fresh'] = False
 
     return weather
+
+def get_transit_time(origin, destination):
+    routes = gmaps.transit_duration(origin, destination)['routes']
+    if not routes:
+        return {'error':'No routes available.'}
+    seconds = reduce(lambda acc, leg: acc + leg['duration']['value'],
+                     routes[0]['legs'], 0)
+    return seconds
