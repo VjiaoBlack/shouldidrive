@@ -14,7 +14,7 @@ def conditions(state_code, city):
     
 # returns (state, city)
 def geocode(location):
-    url = 'http://api.wunderground.com/api/%s/geolookup/q/%s,%s'%(key, location[0], location[1])
+    url = 'http://api.wunderground.com/api/%s/geolookup/q/%s,%s.json'%(key, location[0], location[1])
     response = requests.get(url).json()
-    loc = response['response']['location']
+    loc = response['location']
     return loc['state'], loc['city']

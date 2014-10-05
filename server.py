@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, abort
-import decisions
+from decisions import decision
 
 app = Flask(__name__)
 

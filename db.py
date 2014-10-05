@@ -1,5 +1,5 @@
 from pymongo import MongoClient, GEO2D
-import datetime
+from datetime import datetime
 
 db = MongoClient().shoulddrive
 db.places.create_index([("loc", GEO2D)])
