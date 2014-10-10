@@ -91,7 +91,7 @@ function callback_function(object)  {
 
     document.getElementById("temp").innerHTML = Math.floor(object["response"]["weather_destination"]["temp_f"]) + " F";
     document.getElementById("weather").innerHTML = object["response"]["weather_destination"]["weather"];
-    document.getElementById("transit").innerHTML = Math.ceil(object["response"]["travel_time"]["public"]["seconds"] / 60) + " minutes, $4";
+    document.getElementById("transit").innerHTML = Math.ceil(object["response"]["travel_time"]["public"]["seconds"] / 60) + " minutes";
 
     document.getElementById("uber1").innerHTML = object["response"]["uber"]["time"][0]["localized_display_name"];
     document.getElementById("uber1").innerHTML += ": " + Math.floor(object["response"]["uber"]["time"][0]["estimate"] / 60) + " min";
