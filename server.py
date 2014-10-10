@@ -20,7 +20,7 @@ def goto():
     params = request.args
     origin = (params['start_lat'], params['start_lon'])
     destination = (params['end_lat'], params['end_lon'])
-    hurry = params['hurry']
+    hurry = params['hurry'] == 'true'
     return decision(origin, destination, hurry)
     
 @app.route('/api/')

@@ -68,12 +68,38 @@ function getDest(object) {
     desta = object["results"][0]["geometry"]["location"]["lat"];
     destg = object["results"][0]["geometry"]["location"]["lng"];
 }
+function scrollTo(element, to, duration) {
+    var start = element.scrollTop,
+        change = to - start,
+        currentTime = 0,
+        increment = 20;
 
+    var animateScroll = function(){        
+        currentTime += increment;
+        var val = Math.easeInOutQuad(currentTime, start, change, duration);                        
+        element.scrollTop = val; 
+        if(currentTime < duration) {
+            setTimeout(animateScroll, increment);
+        }
+    };
+    animateScroll();
+}
+
+//t = current time
+//b = start value
+//c = change in value
+//d = duration
+Math.easeInOutQuad = function (t, b, c, d) {
+    t /= d/2;
+    if (t < 1) return c/2*t*t + b;
+    t--;
+    return -c/2 * (t*(t-2) - 1) + b;
+};
 function callback_function(object)  {
-    console.log(object["response"]["drive"]);
+    console.log(object["decision"]);
 
     document.getElementsByTagName("img")[0].style.opacity = 0;
-    if (object["response"]["drive"])
+    if (object["decision"] == true)
         document.getElementById("decision").innerHTML = "Yes!";
     else
         document.getElementById("decision").innerHTML = "No!";
@@ -83,7 +109,10 @@ function callback_function(object)  {
         decisionFade += 0.1;
         if (decisionFade > 1) {
             document.getElementById("decision").style.opacity = 1;
-            clearInterval(fadeDecision);
+            
+	    scrollTo(document.body, 2000, 1250);   
+
+	    clearInterval(fadeDecision);
         }
         document.getElementById("decision").style.opacity = decisionFade;
 
@@ -132,7 +161,7 @@ function shouldIUber() {
         if (xhr.readyState == 4) {
             getDest(JSON.parse(xhr.responseText));
 	    var req = new XMLHttpRequest();
-	    req.open("GET", "http://fortunefish.tk:5959/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat="+desta+"&end_lon="+destg+"$hurry=" + (document.getElementById("inRush").style.backgroundColor == #205060), true);
+	    req.open("GET", "/api/goto.json/?start_lat="+lat+"&start_lon="+lon+"&end_lat="+desta+"&end_lon="+destg+"&hurry=" + (document.getElementById("inRush").style.backgroundColor == "#205060"), true);
 	    req.onreadystatechange = function() {
 		if (req.readyState == 4) {
 		    callback_function(JSON.parse(req.responseText));
