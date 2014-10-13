@@ -23,8 +23,7 @@ def get_decision(data, hurry):
         return True
     # t_delta is the number of seconds that non-uber will take more than uber
     if hurry:
-        return True
-        #if min(t_time['public']['seconds'], t_time['walking']['seconds']) < t_time['driving']['seconds'] + data['uber']['time'][0]['estimate']:
+        return min(t_time['public']['seconds'], t_time['walking']['seconds']) < (t_time['driving']['seconds'] + data['uber']['time'][0]['estimate'])
             
     if 'temp_f' in data['weather_destination'] and data['weather_destination']['temp_f'] < MIN_WALKING_TEMP:
         return True
