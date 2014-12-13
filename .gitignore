@@ -1,3 +1,4 @@
 *.pyc
 tokens.py
-pidfile*.log
+pidfile
+*.log
